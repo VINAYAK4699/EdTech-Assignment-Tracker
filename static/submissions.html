@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Submissions</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<h2>View Submissions</h2>
+<input type="number" id="assignmentId" placeholder="Assignment ID">
+<button onclick="getSubmissions()">Get Submissions</button>
+<div id="result"></div>
+
+<script>
+async function getSubmissions() {
+  const assignmentId = document.getElementById('assignmentId').value;
+  const token = localStorage.getItem('token');
+  const res = await fetch(`/assignments/${assignmentId}/submissions`, {
+    headers: {'Authorization': 'Bearer ' + token}
+  });
+  const data = await res.json();
+  document.getElementById('result').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+}
+</script>
+</body>
+</html>

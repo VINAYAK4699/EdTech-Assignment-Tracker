@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Submit Assignment</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<h2>Submit Assignment</h2>
+<form id="submitForm" enctype="multipart/form-data">
+  <input type="number" id="assignmentId" placeholder="Assignment ID" required><br>
+  <input type="file" id="file" required><br>
+  <button type="submit">Submit</button>
+</form>
+
+<script>
+document.getElementById('submitForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const token = localStorage.getItem('token');
+  const assignmentId = document.getElementById('assignmentId').value;
+  const formData = new FormData();
+  formData.append('file', document.getElementById('file').files[0]);
+  
+  const response = await fetch(`/assignments/${assignmentId}/submit`, {
+    method: 'POST',
+    headers: {'Authorization': 'Bearer ' + token},
+    body: formData
+  });
+  alert(await response.text());
+});
+</script>
+</body>
+</html>
